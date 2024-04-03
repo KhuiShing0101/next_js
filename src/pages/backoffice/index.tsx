@@ -1,9 +1,13 @@
 import Layout from "@/components/BackofficeLayout";
+import { Button } from "@mui/material";
+import {useSession } from "next-auth/react";
 
-export default function BackofficeApp(){
+ const BackofficeApp =()=>{
+    const {data} = useSession();
     return (
             <Layout>
-                <h1>Backoffice App</h1>
+                <h1>Backoffice App {data?.user?.email}</h1>
             </Layout>
-        )
+            )
 }
+export default BackofficeApp;
