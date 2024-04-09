@@ -1,6 +1,7 @@
 
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Menu, NewMenuParams } from "../../types/menu";
+import { Menu, CreateMenuPayload } from "../../types/menu";
+import { config } from "@/config";
 
 interface menuSlice{
     menus:Menu[];
@@ -15,43 +16,47 @@ const initialState:menuSlice={
 }
 
 export const createMenu = createAsyncThunk("menu/createMenu",
-    async(newMenu:NewMenuParams,thunkApi)=>{
-        const { onSuccess, ...payload } = newMenu;
-        const response = await fetch("http://localhost:5000/menu",{
+    async(payload:CreateMenuPayload,thunkApi)=>{
+        const { onSuccess } = payload;
+        const response = await fetch(`${config.backofficeApiBaseUrl}/menu`,{
             method:"POST",
             headers:{
                 "content-type":"application/json"
             },
-            body:JSON.stringify({...newMenu})
+            body:JSON.stringify({...payload})
         })
         const serverFromData = await response.json();
-        const {menus} = serverFromData;
-        // thunkApi.dispatch(setMenu(menus as Menu[]))
+        const {menu} = serverFromData;
         onSuccess && onSuccess();
-        return menus
+        return menu
     })
 
 export const menuSlice = createSlice({
     name:"menu",
     initialState,
     reducers:{
-        setMenu:(state,action:PayloadAction<Menu[]>)=>{
+        setMenus:(state,action:PayloadAction<Menu[]>)=>{
             state.menus = action.payload;
         },
         addMenu:(state,action:PayloadAction<Menu>)=>{
             state.menus = [...state.menus,action.payload]
         },
         removeMenu:(state,action:PayloadAction<Menu>)=>{
-            state.menus = state.menus.filter((menu)=> menu.id === action.payload.id ? false : true)
+            state.menus = state.menus.filter((menu)=> menu.id === action.payload.id ? false : true);
         }
     },
-    extraReducers:(builder)=>{
-        builder.addCase(createMenu.pending,(state,action)=>{
+    extraReducers: (builder)=>{
+        builder
+        .addCase(createMenu.pending,(state,action)=>{
             state.isLoading= true;
-        }).addCase(createMenu.fulfilled,(state,action) =>{
-            state.menus = action.payload
+            state.error = null;
+        })
+        .addCase(createMenu.fulfilled,(state,action) =>{
+            // console.log(action.payload);
+            state.menus = [...state.menus,action.payload]
             state.isLoading= false;
-        }).addCase(createMenu.rejected,(state,action)=>{
+        })
+        .addCase(createMenu.rejected,(state,action)=>{
             state.isLoading = false;
             const e = new Error("create menu error occoured")
             state.error = e.message
@@ -59,6 +64,6 @@ export const menuSlice = createSlice({
     }
 })
 
-export const {setMenu,addMenu,removeMenu} = menuSlice.actions;
+export const {setMenus,addMenu,removeMenu} = menuSlice.actions;
 
 export default menuSlice.reducer;

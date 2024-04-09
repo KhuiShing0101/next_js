@@ -5,7 +5,10 @@ interface BaseMenu{
     price:number;
 }
 
-export interface NewMenu extends BaseMenu{}
+export interface CreateMenuPayload extends BaseOption{
+    name:string;
+    price:number;
+}
 
 export interface Menu extends BaseMenu{
     id:number;

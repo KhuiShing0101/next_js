@@ -1,12 +1,12 @@
 import BackofficeLayout from "@/components/BackofficeLayout";
 import { NewMenuDialog } from "@/components/NewMenuDialog";
-import { NewMenu } from "@/types/menu";
+import { CreateMenuPayload} from "@/types/menu";
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
 
 const Menu =()=>{
     const [open,setOpen] = useState(false);
-    const [newMenu,setNewMenu] = useState<NewMenu>({name:"",price:0})
+    const [newMenu,setNewMenu] = useState<CreateMenuPayload>({name:"",price:0})
     return (
             <BackofficeLayout>
                 <Box>

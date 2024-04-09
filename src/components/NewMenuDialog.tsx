@@ -1,21 +1,20 @@
 import { Alert, Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Snackbar, TextField } from "@mui/material"
-import { NewMenu } from "../types/menu";
+import { CreateMenuPayload } from "../types/menu";
 import { createMenu } from "../store/slices/menuSlice";
 import { useAppDispatch, useAppSelector } from "../store/hook";
-import { useState } from "react";
 import { showSnackBar } from "../store/slices/appSnackbarSlice";
 
 
 interface props {
     open: boolean,
-    newMenu: NewMenu;
+    newMenu: CreateMenuPayload;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
-    setNewMenu: React.Dispatch<React.SetStateAction<NewMenu>>
+    setNewMenu: React.Dispatch<React.SetStateAction<CreateMenuPayload>>
 }
 
 export const NewMenuDialog = ({ open, newMenu, setOpen, setNewMenu }: props) => {
     const dispatch = useAppDispatch();
-    // const { isLoading } = useAppSelector(state => state.menu);
+    const { isLoading } = useAppSelector(state => state.menu);
 
     const handleCreateMenu = async () => {
         const isAvaild = newMenu.name
@@ -61,6 +60,7 @@ export const NewMenuDialog = ({ open, newMenu, setOpen, setNewMenu }: props) => 
                     sx={{ width: '200', height: '38', bgcolor: '#FA4EAB', "&:hover": { bgcolor: "#FE83C6" } }}
                     onClick={handleCreateMenu}
                 >
+                Create
                     {/* {isLoading ? <CircularProgress size={20} /> : "Create"} */}
                 </Button>
             </DialogContent>
