@@ -16,7 +16,6 @@ import { useEffect } from "react";
         const response = await fetch(`${config.backofficeApiBaseUrl}/app`)
         const dataFormServer = await response.json()
         const {menus,menuCategories} = dataFormServer
-        console.log(dataFormServer);
         dispatch(setMenus(menus));
         dispatch(setMenuCategories(menuCategories));
     }

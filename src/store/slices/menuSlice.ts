@@ -52,7 +52,6 @@ export const menuSlice = createSlice({
             state.error = null;
         })
         .addCase(createMenu.fulfilled,(state,action) =>{
-            // console.log(action.payload);
             state.menus = [...state.menus,action.payload]
             state.isLoading= false;
         })

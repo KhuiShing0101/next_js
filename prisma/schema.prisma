@@ -14,58 +14,129 @@ datasource db {
 }
 
 model User {
-  id      Int     @id @default(autoincrement())
-  email   String  @unique
+  id      Int       @id @default(autoincrement())
+  email   String    @unique
   name    String?
   company Company[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  isArchived Boolean @default(false)
 }
 
 model Company {
-  id            Int     @id @default(autoincrement())
-  name          String  @unique
-  email         String?
-  user          User    @relation(fields: [userId],references: [id])
-  userId        Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  isArchived Boolean @default(false)
+  id             Int            @id @default(autoincrement())
+  name           String         @unique
+  email          String?
+  street         String
+  township       String
+  city           String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  isArchived     Boolean        @default(false)
+  user           User           @relation(fields: [userId], references: [id])
+  userId         Int
+  locations      Location[]
+  menuCategories MenuCategory[]
 }
 
-model Location{
-  id      Int     @id @default(autoincrement())
-  name    String  @unique
-  address String  @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  isArchived Boolean @default(false)
+model Location {
+  id                          Int                           @id @default(autoincrement())
+  name                        String                        @unique
+  street                      String
+  township                    String
+  city                        String
+  companyId                   Int
+  disableLocationMenuCategory DisableLocationMenuCategory[]
+  disableLocationMenu         DisableLocationMenu[]
+  createdAt                   DateTime                      @default(now())
+  updatedAt                   DateTime                      @updatedAt
+  isArchived                  Boolean                       @default(false)
+  company                     Company                       @relation(fields: [companyId], references: [id])
 }
 
-model MenuCategory{
-  id            Int   @id @default(autoincrement())
-  name          String 
-  isAvailable   Boolean
-  MenuCategoryMenu MenuCategoryMenu[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  isArchived Boolean @default(false)
+model MenuCategory {
+  id                          Int                           @id @default(autoincrement())
+  name                        String
+  isAvailable                 Boolean
+  companyId                   Int
+  createdAt                   DateTime                      @default(now())
+  updatedAt                   DateTime                      @updatedAt
+  isArchived                  Boolean                       @default(false)
+  company                     Company                       @relation(fields: [companyId], references: [id])
+  MenuCategoryMenu            MenuCategoryMenu[]
+  disableLocationMenuCategory DisableLocationMenuCategory[]
 }
+
+model DisableLocationMenuCategory {
+  id             Int          @id @default(autoincrement())
+  locationId     Int
+  menuCategoryId Int
+  location       Location     @relation(fields: [locationId], references: [id])
+  menuCategoy    MenuCategory @relation(fields: [menuCategoryId], references: [id])
+}
+
+// model MenuCategoryLocation{
+//   id              Int @id @default(autoincrement())
+//   menuCategoryId  Int
+//   locationId      Int
+// }
+
 model Menu {
-  id                Int     @id @default(autoincrement())
-  name              String
-  price             Int
-  MenuCategoryMenu  MenuCategoryMenu[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  isArchived Boolean @default(false)
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  price               Int                   @default(0)
+  description         String?
+  assetUrl            String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  isArchived          Boolean               @default(false)
+  disableLocationMenu DisableLocationMenu[]
+  menuCategoryMenu    MenuCategoryMenu[]
+  menuAddonCategory   MenuAddonCategory[]
 }
 
-model MenuCategoryMenu{
-  id                Int           @id @default(autoincrement())
-  menuCategoryId    Int   
-  menuCategory      MenuCategory  @relation(fields: [menuCategoryId],references: [id])
-  menuId            Int
-  Menu              Menu          @relation(fields: [menuId],references: [id])
+model DisableLocationMenu {
+  id         Int      @id @default(autoincrement())
+  locationId Int
+  menuId     Int
+  location   Location @relation(fields: [locationId], references: [id])
+  menu       Menu     @relation(fields: [menuId], references: [id])
+}
+
+model MenuCategoryMenu {
+  id             Int          @id @default(autoincrement())
+  menuCategoryId Int
+  menuCategory   MenuCategory @relation(fields: [menuCategoryId], references: [id])
+  menuId         Int
+  Menu           Menu         @relation(fields: [menuId], references: [id])
+}
+
+model AddonCategory {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  isRequired        Boolean             @default(true)
+  isArchived        Boolean             @default(false)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  menuAddonCategory MenuAddonCategory[]
+  addon             Addon[]
+}
+
+model MenuAddonCategory {
+  id              Int           @id @default(autoincrement())
+  menuId          Int
+  addonCategoryId Int
+  isArchived      Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  addonCategory   AddonCategory @relation(fields: [addonCategoryId], references: [id])
+  menu            Menu          @relation(fields: [menuId], references: [id])
+}
+
+model Addon {
+  id              Int           @id @default(autoincrement())
+  name            String
+  price           Int           @default(0)
+  addonCategoryId Int
+  isArchived      Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  addonCategory   AddonCategory @relation(fields: [addonCategoryId], references: [id])
 }
