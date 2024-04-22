@@ -3,6 +3,7 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT,
+    "companyId" INTEGER NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -18,7 +19,6 @@ CREATE TABLE "Company" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
-    "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Company_pkey" PRIMARY KEY ("id")
 );
@@ -42,7 +42,7 @@ CREATE TABLE "Location" (
 CREATE TABLE "MenuCategory" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "isAvailable" BOOLEAN NOT NULL,
+    "isAvailable" BOOLEAN NOT NULL DEFAULT false,
     "companyId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -129,6 +129,19 @@ CREATE TABLE "Addon" (
     CONSTRAINT "Addon_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Table" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "accessUrl" TEXT NOT NULL,
+    "locationId" INTEGER NOT NULL,
+    "isArchived" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Table_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -139,7 +152,7 @@ CREATE UNIQUE INDEX "Company_name_key" ON "Company"("name");
 CREATE UNIQUE INDEX "Location_name_key" ON "Location"("name");
 
 -- AddForeignKey
-ALTER TABLE "Company" ADD CONSTRAINT "Company_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Location" ADD CONSTRAINT "Location_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -173,3 +186,6 @@ ALTER TABLE "MenuAddonCategory" ADD CONSTRAINT "MenuAddonCategory_menuId_fkey" F
 
 -- AddForeignKey
 ALTER TABLE "Addon" ADD CONSTRAINT "Addon_addonCategoryId_fkey" FOREIGN KEY ("addonCategoryId") REFERENCES "AddonCategory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Table" ADD CONSTRAINT "Table_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

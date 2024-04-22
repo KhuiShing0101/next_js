@@ -14,10 +14,11 @@ datasource db {
 }
 
 model User {
-  id      Int       @id @default(autoincrement())
-  email   String    @unique
-  name    String?
-  company Company[]
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  name      String?
+  companyId Int
+  company   Company @relation(fields: [companyId], references: [id])
 }
 
 model Company {
@@ -30,10 +31,9 @@ model Company {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   isArchived     Boolean        @default(false)
-  user           User           @relation(fields: [userId], references: [id])
-  userId         Int
   locations      Location[]
   menuCategories MenuCategory[]
+  User           User[]
 }
 
 model Location {
@@ -49,12 +49,13 @@ model Location {
   updatedAt                   DateTime                      @updatedAt
   isArchived                  Boolean                       @default(false)
   company                     Company                       @relation(fields: [companyId], references: [id])
+  Table                       Table[]
 }
 
 model MenuCategory {
   id                          Int                           @id @default(autoincrement())
   name                        String
-  isAvailable                 Boolean
+  isAvailable                 Boolean                       @default(false)
   companyId                   Int
   createdAt                   DateTime                      @default(now())
   updatedAt                   DateTime                      @updatedAt
@@ -139,4 +140,15 @@ model Addon {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   addonCategory   AddonCategory @relation(fields: [addonCategoryId], references: [id])
+}
+
+model Table {
+  id         Int      @id @default(autoincrement())
+  name       String
+  accessUrl  String
+  locationId Int
+  location   Location @relation(fields: [locationId], references: [id])
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
