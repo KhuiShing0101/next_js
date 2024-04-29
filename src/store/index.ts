@@ -3,13 +3,17 @@ import menuReducer from './slices/menuSlice'
 import menuCategoryReducer from './slices/menuCategorySlice'
 import userReducer from './slices/userSlice'
 import snackbarReducer from './slices/appSnackbarSlice'
+import appReducer from './slices/appSlice'
+import companyReducer from './slices/companySlice'
 
 export const store = configureStore({
   reducer: {
+    app : appReducer,
+    company:companyReducer,
     menu : menuReducer,
     menuCategory: menuCategoryReducer,
     user : userReducer,
-    snackbar: snackbarReducer
+    snackbar: snackbarReducer,
   },
 })
 

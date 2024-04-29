@@ -1,7 +1,8 @@
 
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Menu, CreateMenuPayload } from "../../types/menu";
+import { CreateMenuPayload } from "../../types/menu";
 import { config } from "@/config";
+import { Menu } from "@prisma/client";
 
 interface menuSlice{
     menus:Menu[];

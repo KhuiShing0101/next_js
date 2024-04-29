@@ -10,8 +10,4 @@ export interface CreateMenuPayload extends BaseOption{
     price:number;
 }
 
-export interface Menu extends BaseMenu{
-    id:number;
-}
-
 export interface NewMenuParams extends BaseMenu,BaseOption{}

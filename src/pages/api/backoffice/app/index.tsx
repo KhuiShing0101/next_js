@@ -26,7 +26,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                 const menuAddonCategories = await prisma.menuAddonCategory.findMany({where:{menuId:{in:menuIds}}})
                 const menuAddonCategoryIds = await menuAddonCategories.map(item=>item.addonCategoryId)
                 const addonCategories = await prisma.addonCategory.findMany({where:{id:{in:menuAddonCategoryIds}}})
-                const addons = await prisma.addon.findMany({where:{id:{in:addonCategories.map(item=>item.id)}}})
+                const addons = await prisma.addon.findMany({where:{addonCategoryId:{in:addonCategories.map(item=>item.id)}}})
                 res.status(200).json({
                     company,
                     locations,
