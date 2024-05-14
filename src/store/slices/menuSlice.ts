@@ -27,7 +27,7 @@ export const createMenu = createAsyncThunk("menu/createMenu",
             body:JSON.stringify({...payload})
         })
         const serverFromData = await response.json();
-        const {menu} = serverFromData;
+        const {menu,menuCategoryMenus} = serverFromData;
         onSuccess && onSuccess();
         return menu
     })

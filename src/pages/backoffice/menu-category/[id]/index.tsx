@@ -44,6 +44,11 @@ const MenuCategoryDetail=()=>{
     };
     return(
         <BackofficeLayout>
+            <Box sx={{display:"flex",justifyContent:"flex-end",mb:2}}>
+                <Button variant="outlined" color="error" onClick={()=>{}}>
+                    Delete
+                </Button>
+            </Box>
             <Box sx={{display:"flex",flexDirection:"column",maxWidth:500}}>
                 <TextField 
                     value={updateData.name} 

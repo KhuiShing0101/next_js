@@ -5,6 +5,7 @@ import userReducer from './slices/userSlice'
 import snackbarReducer from './slices/appSnackbarSlice'
 import appReducer from './slices/appSlice'
 import companyReducer from './slices/companySlice'
+import menuCategoryMenuReducer from './slices/menuCategoryMenuSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     company:companyReducer,
     menu : menuReducer,
     menuCategory: menuCategoryReducer,
+    menuCategoryMenu: menuCategoryMenuReducer,
     user : userReducer,
     snackbar: snackbarReducer,
   },

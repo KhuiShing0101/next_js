@@ -3,7 +3,6 @@ import ItemCard from "@/components/ItemCard";
 import { NewMenuDialog } from "@/components/NewMenuDialog";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { CreateMenuPayload} from "@/types/menu";
-import { RestaurantMenuSharp } from "@mui/icons-material";
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
@@ -11,7 +10,7 @@ import LocalDiningIcon from '@mui/icons-material/LocalDining';
 const Menu =()=>{
     const [open,setOpen] = useState(false);
     const {menus} = useAppSelector(state=>state.menu)
-    const [newMenu,setNewMenu] = useState<CreateMenuPayload>({name:"",price:0})
+    const [newMenu,setNewMenu] = useState<CreateMenuPayload>({name:"",price:0,menuCategoryIds:[]})
     return (
             <BackofficeLayout>
                 <Box>
@@ -22,13 +21,13 @@ const Menu =()=>{
                             New Menu
                         </Button>
                     </Box>
-                    <Box>
+                    <Box sx={{display:"flex", flexWrap: 'wrap',}}>
                         { menus.map(
-                            (item)=><ItemCard 
+                            (item)=><ItemCard
                                     key={item.id}
                                     icon={<LocalDiningIcon/>} 
                                     title={item.name} 
-                                    href={`menu-category/${item.id}`}
+                                    href={`menu/${item.id}`}
                                 />
                             )
                         }

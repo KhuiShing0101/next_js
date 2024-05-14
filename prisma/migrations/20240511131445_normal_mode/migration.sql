@@ -42,7 +42,7 @@ CREATE TABLE "Location" (
 CREATE TABLE "MenuCategory" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "isAvailable" BOOLEAN NOT NULL DEFAULT false,
+    "isAvailable" BOOLEAN NOT NULL DEFAULT true,
     "companyId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

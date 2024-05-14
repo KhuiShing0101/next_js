@@ -11,8 +11,8 @@ import Link from "next/link";
 
 const sidebarItems =[
     {id:1, label: "Order", route:"/backoffice/order",icon: <LocalMallIcon/>},
-    {id:2, label: "Menus", route:"/backoffice/menu",icon: <LocalDiningIcon/>},
-    {id:3, label:"Menu Categories", route:"/backoffice/menu-category",icon:<CategoryIcon/>},
+    {id:2, label:"Menu Categories", route:"/backoffice/menu-category",icon:<CategoryIcon/>},
+    {id:3, label: "Menus", route:"/backoffice/menu",icon: <LocalDiningIcon/>},
     {id:4, label: "Addon Categories", route:"/backoffice/addon-category",icon: <ClassIcon/>},
     {id:5, label: "Addons", route:"/backoffice/addon",icon: <EggIcon/>},
     {id:6, label:"Tables", route:"/backoffice/table",icon:<TableBarIcon/>},
